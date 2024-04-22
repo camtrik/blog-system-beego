@@ -3,15 +3,28 @@ package models
 import (
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
+
+var validate = validator.New()
 
 type Blog struct {
 	Id      int `PK` // 设置Id为主键
 	Title   string
 	Content string
 	Created time.Time
+}
+
+type User struct {
+	Username string `form:"Username" validate:"required,max=8"`
+	Age      int    `form:"Age" validate:"required,numeric"`
+	Email    string `form:"Email" validate:"required,email"`
+}
+
+func (user *User) Validate() error {
+	return validate.Struct(user)
 }
 
 var DB *gorm.DB
@@ -26,6 +39,7 @@ func Init() {
 	}
 
 	DB.AutoMigrate(&Blog{})
+	DB.AutoMigrate(&User{})	
 }
 
 func GetAll() ([]Blog, error) {
@@ -53,5 +67,10 @@ func SaveBlog(blog *Blog) error {
 
 func DelBlog(blog *Blog) error {
 	result := DB.Delete(blog)
+	return result.Error
+}
+
+func UserInsert(user *User) error {
+	result := DB.Create(user)
 	return result.Error
 }

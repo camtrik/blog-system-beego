@@ -16,3 +16,4 @@
     </a>
 {{end}}
 </div>
+<a href="/adduser" class="btn btn-success my-2">Add New User</a> <!-- 页面底部添加用户的按钮 -->

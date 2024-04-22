@@ -14,4 +14,5 @@ func init() {
 	beego.Router("/view/:id", &controllers.ViewController{})
 	beego.Router("/edit/:id", &controllers.EditController{})
 	beego.Router("/delete/:id", &controllers.DeleteController{})
+	beego.Router("/adduser", &controllers.AddUserController{})
 }

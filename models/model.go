@@ -18,9 +18,10 @@ type Blog struct {
 }
 
 type User struct {
-	Username string `form:"Username" validate:"required,max=8"`
-	Age      int    `form:"Age" validate:"required,numeric"`
-	Email    string `form:"Email" validate:"required,email"`
+	gorm.Model
+	Username string `gorm:"type:varchar(100);uniqueIndex"` // 设置为 VARCHAR 并且唯一
+	Password string
+	Email    string
 }
 
 func (user *User) Validate() error {
@@ -37,9 +38,8 @@ func Init() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-
 	DB.AutoMigrate(&Blog{})
-	DB.AutoMigrate(&User{})	
+	DB.AutoMigrate(&User{})
 }
 
 func GetAll() ([]Blog, error) {
@@ -73,4 +73,15 @@ func DelBlog(blog *Blog) error {
 func UserInsert(user *User) error {
 	result := DB.Create(user)
 	return result.Error
+}
+
+func CreateUser(user *User) error {
+	result := DB.Create(&user)
+	return result.Error
+}
+
+func GetUser(username string) (User, error) {
+	var user User
+	result := DB.Where("username=?", username).First(&user)
+	return user, result.Error
 }

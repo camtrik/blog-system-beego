@@ -7,11 +7,10 @@ import (
 )
 
 type IndexController struct {
-	beego.Controller
+	BaseController
 }
 
 func (c *IndexController) Get() {
-
 
 	var err error
 	c.Data["blogs"], err = models.GetAll()

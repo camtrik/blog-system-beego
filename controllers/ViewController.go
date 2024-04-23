@@ -12,6 +12,7 @@ type ViewController struct {
 }
 
 func (c *ViewController) Get() {
+	// session start
 	sess := c.StartSession()
 	var visitCount int
 	if count := sess.Get("visitCount"); count != nil {
@@ -21,6 +22,7 @@ func (c *ViewController) Get() {
 	sess.Set("visitCount", visitCount)
 	c.Data["visitCount"] = visitCount
 	beego.Info("visitCount:", visitCount) 
+	// session over
 
 	var err error
 	id, _ := strconv.Atoi(c.Ctx.Input.Params()[":id"])

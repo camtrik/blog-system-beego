@@ -1,3 +1,11 @@
+{{ if .IsLoggedIn }}
+    <p>Welcome, {{.Username}}!</p>
+    <a href="/logout" class="btn btn-warning my-2">Logout</a>
+{{ else }}
+    <a href="/register" class="btn btn-success my-2">Register</a>
+    <a href="/login" class="btn btn-primary my-2">Login</a>
+{{ end }}
+
 <h1>Blog posts</h1>
 
 <div class="list-group">
@@ -16,4 +24,3 @@
     </a>
 {{end}}
 </div>
-<a href="/adduser" class="btn btn-success my-2">Add New User</a> <!-- 页面底部添加用户的按钮 -->
